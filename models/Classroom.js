@@ -3,6 +3,9 @@ const crypto = require('crypto');
 
 const classroomSchema = new mongoose.Schema({
     owner:  { type: String, unique: true }, //email
+    name: String,
+    description: String,
+    startingDate: String,
     enforceMute: Boolean,
     enforceVideo: Boolean,
   }, { timestamps: true });
@@ -11,7 +14,7 @@ const classroomSchema = new mongoose.Schema({
 /**
  * Helper method for getting user's gravatar.
  */
-userSchema.methods.gravatar = function gravatar(size) {
+classroomSchema.methods.gravatar = function gravatar(size) {
   if (!size) {
     size = 200;
   }
@@ -21,6 +24,7 @@ userSchema.methods.gravatar = function gravatar(size) {
   const md5 = crypto.createHash('md5').update(this.owner).digest('hex');
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
+
 const Classroom = mongoose.model('Classroom', classroomSchema);
 
 module.exports = Classroom;

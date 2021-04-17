@@ -1,92 +1,24 @@
 extends ../layout
 
 block content
-    .row
-        .card.mb-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3.ml-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3.ml-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3.ml-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
-        .card.mb-3.ml-3(style='max-width: 540px;')
-            .row.no-gutters
-                .col-md-4
-                    img.card-img(src='https://gravatar.com/avatar/?s=160&d=retro' alt='...').center-block
-                .col-md-8
-                    .card-body
-                        h5.card-title Card title
-                        p.card-text
-                            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                        p.card-text
-                            small.text-muted Last updated 3 mins ago
+    .row.d-flex.justify-content-around.mb-3
+        button.btn.btn-primary.btn-block(type="button" style='max-width: 540px;' href="/classroom/create") 
+            |Create a new classroom
+        button.btn.btn-secondary.btn-block(type="button" style='max-width: 540px; href="/classroom/join') 
+            |Join a classroom
+    .row.justify-content-md-around
+        if userClassrooms
+            each classroom in userClassrooms
+                .card.mb-3(style='max-width: 540px;')
+                    .row.no-gutters
+                        .col-md-4
+                            img.card-img(src='#{classroom.gravitar(160)}' alt='...').center-block
+                        .col-md-8
+                            .card-body
+                                h5.card-title #{classroom.name}
+                                p.card-text
+                                    | #{classroom.description}
+                                p.card-text
+                                    small.text-muted #{classroom.timestamp}
+        else 
+            | you don't have any classrooms lol
