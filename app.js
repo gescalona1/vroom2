@@ -17,21 +17,23 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
+const WebSocketServer = require("./socket/WSServer");
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: '.env.example' });
+dotenv.config({ path: '.env' });
 
 /**
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
+//const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const classroomController = require('./controllers/classroom');
 
 /**
  * API keys and Passport configuration.
@@ -42,6 +44,12 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+/**
+ * WS Server
+ */
+ const wss = new WebSocketServer(process.env.WSPORT);
+
 
 /**
  * Connect to MongoDB.
@@ -144,9 +152,11 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
+app.get('/classroom', passportConfig.isAuthenticated, classroomController.index);
+/*
 /**
  * API examples routes.
- */
+ * 
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);
@@ -178,7 +188,7 @@ app.get('/api/google/drive', passportConfig.isAuthenticated, passportConfig.isAu
 app.get('/api/chart', apiController.getChart);
 app.get('/api/google/sheets', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGoogleSheets);
 app.get('/api/quickbooks', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getQuickbooks);
-
+*/
 /**
  * OAuth authentication routes. (Sign in)
  */
@@ -249,15 +259,22 @@ if (process.env.NODE_ENV === 'development') {
   app.use((err, req, res, next) => {
     console.error(err);
     res.status(500).send('Server Error');
+    wss.close();
   });
 }
 
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
+});
+
+process.on('SIGINT', function() {
+  wss.close();
+  server.close();
+  process.exit(1);
 });
 
 module.exports = app;
