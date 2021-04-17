@@ -2,23 +2,29 @@ extends ../layout
 
 block content
     .row.d-flex.justify-content-around.mb-3
-        button.btn.btn-primary.btn-block(type="button" style='max-width: 540px;' href="/classroom/create") 
-            |Create a new classroom
-        button.btn.btn-secondary.btn-block(type="button" style='max-width: 540px; href="/classroom/join') 
-            |Join a classroom
+        a(href="/classroom/create" style='max-width: 540px;')
+            button.btn.btn-primary.btn-block(type="button" ) 
+                |Create a new classroom
+        a(href="/classroom/join" style='max-width: 540px;')
+            button.btn.btn-secondary.btn-block(type="button") 
+                |Join a classroom
     .row.justify-content-md-around
         if userClassrooms
             each classroom in userClassrooms
-                .card.mb-3(style='max-width: 540px;')
+                .card.mb-3(style='max-width: 540px; min-width: 540px')
                     .row.no-gutters
                         .col-md-4
-                            img.card-img(src='#{classroom.gravitar(160)}' alt='...').center-block
+                            img.card-img.center-block(src=classroom.gravatar(170))
                         .col-md-8
                             .card-body
-                                h5.card-title #{classroom.name}
+                                - var link = "/elonmusk" + classroom.owner + classroom.name
+                                a(href=link)
+                                    h5.card-title #{classroom.name}
                                 p.card-text
-                                    | #{classroom.description}
+                                    | by #{classroom.owner} 
+                                p.card-test
+                                    | Description: #{classroom.description}
                                 p.card-text
-                                    small.text-muted #{classroom.timestamp}
+                                    small.text-muted #{classroom.startingDate}
         else 
             | you don't have any classrooms lol

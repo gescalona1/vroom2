@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+    h1 Joining which class?
+    .row.justify-content-md-around
+        if classrooms
+            each classroom in classrooms
+                .card.mb-3(style='max-width: 540px; min-width: 540px')
+                    .row.no-gutters
+                        .col-md-4
+                            img.card-img.center-block(src=classroom.gravatar(170))
+                        .col-md-8
+                            .card-body
+                                form(method='POST')
+                                    input(type='hidden' name='_csrf', value=_csrf)
+                                    - var SS = classroom.owner + " " +  classroom.name
+                                    button.btn-link(type="submit" name="classroom" value=SS)
+                                        h5.card-title #{classroom.name}
+                                p.card-text
+                                    | by #{classroom.owner} 
+                                p.card-test
+                                    | Description: #{classroom.description}
+                                p.card-text
+                                    small.text-muted #{classroom.startingDate}
+        else 
+            | there are no classrooms :(

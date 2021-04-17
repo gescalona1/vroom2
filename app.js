@@ -153,6 +153,11 @@ app.post('/account/delete', passportConfig.isAuthenticated, userController.postD
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
 app.get('/classroom', passportConfig.isAuthenticated, classroomController.index);
+app.get('/classroom/create', passportConfig.isAuthenticated, classroomController.create);
+app.post('/classroom/create', passportConfig.isAuthenticated, classroomController.postCreate);
+app.get('/classroom/join', passportConfig.isAuthenticated, classroomController.join);
+app.post('/classroom/join', passportConfig.isAuthenticated, classroomController.postJoin);
+app.get('/classroom/:room', passportConfig.isAuthenticated, classroomController.room);
 /*
 /**
  * API examples routes.
