@@ -4,8 +4,8 @@ const Classroom = require('../models/Classroom');
  * Home page.
  */
  exports.index = (req, res) => {
-    res.render('home', {
-      title: 'Home'
+    res.render('classroom/landing', {
+      title: 'Classroom'
     });
   };
   
