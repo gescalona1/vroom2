@@ -115,7 +115,9 @@ exports.room = (req, res) => {
   Classroom.findOne({name: req.params.classroom, owner: req.params.owner}, (err, existingClassroom) => {
     payload["classroom"] = existingClassroom;
     res.render('classroom/room', {
-      payload: JSON.stringify(payload)
+      payload: JSON.stringify(payload),
+      video: payload.classroom.enforceVideo,
+      ownermail: req.params.owner
     });
   });
 }

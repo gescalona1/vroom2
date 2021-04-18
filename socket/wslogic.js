@@ -10,8 +10,22 @@ const join = (ws) => {
     ws.send(data);
   });
 }
+
+const img = (ws) => {
+  ws.recieve("userimg", data => {
+    ws.send(data);
+  });
+}
+
+const setting = (ws) => {
+  ws.recieve("settingupdate", data => {
+    ws.send(data);
+  });
+}
 const interactions = (ws) => {
   chat(ws);
   join(ws);
+  img(ws);
+  setting(ws);
 }
 module.exports = interactions;

@@ -6,6 +6,20 @@ block content
   .container
         .row
           .col-md-7
+            if user.email == ownermail
+              if video
+                input#videoenforcer.form-check-input(type='checkbox' checked='')
+              else
+                input#videoenforcer.form-check-input(type='checkbox')
+              label.form-check-label(for='flexCheckDefault')
+                | Enforce Video
+            if video
+              input#videocheck.form-check-input(type='checkbox' checked='')
+            else
+              input#videocheck.form-check-input(type='checkbox')
+            label.form-check-label(for='flexCheckDefault')
+              | Video
+            
           .col-md-5
             .panel.panel-primary
               #accordion.panel-heading
@@ -26,7 +40,7 @@ block content
   .container(style="height: 77.5vh")
     .row.justify-content-start(style="min-height:100%")#zoomi
       .col-sm-4 
-        video(autoplay='')
+        video(autoplay='' style="width: 100%; height: auto")
 
 
 block foot
