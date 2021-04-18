@@ -18,6 +18,7 @@ const passport = require('passport');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 const WebSocketServer = require("./socket/WSServer");
+const wslogic = require("./socket/wslogic");
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -48,8 +49,8 @@ const app = express();
 /**
  * WS Server
  */
- const wss = new WebSocketServer(process.env.WSPORT);
-
+const wss = new WebSocketServer(process.env.WSPORT);
+wslogic(wss);
 
 /**
  * Connect to MongoDB.
@@ -157,7 +158,7 @@ app.get('/classroom/create', passportConfig.isAuthenticated, classroomController
 app.post('/classroom/create', passportConfig.isAuthenticated, classroomController.postCreate);
 app.get('/classroom/join', passportConfig.isAuthenticated, classroomController.join);
 app.post('/classroom/join', passportConfig.isAuthenticated, classroomController.postJoin);
-app.get('/classroom/:room', passportConfig.isAuthenticated, classroomController.room);
+app.get('/classroom/:owner/:classroom', passportConfig.isAuthenticated, classroomController.room);
 /*
 /**
  * API examples routes.

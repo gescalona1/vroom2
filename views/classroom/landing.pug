@@ -17,7 +17,7 @@ block content
                             img.card-img.center-block(src=classroom.gravatar(170))
                         .col-md-8
                             .card-body
-                                - var link = "/elonmusk" + classroom.owner + classroom.name
+                                - var link = "/classroom/" + classroom.owner + "/" + classroom.name
                                 a(href=link)
                                     h5.card-title #{classroom.name}
                                 p.card-text

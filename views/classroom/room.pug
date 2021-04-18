@@ -1,0 +1,35 @@
+extends ../layout
+block head
+    link(rel='stylesheet' href='/css/chat.css')
+
+block content 
+  .container
+        .row
+          .col-md-7
+          .col-md-5
+            .panel.panel-primary
+              #accordion.panel-heading
+                span.glyphicon.glyphicon-comment
+                |  Chat
+                .btn-group.pull-right
+                  a.btn.btn-default.btn-xs(type='button', data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                    span.glyphicon.glyphicon-chevron-down
+              #collapseOne.panel-collapse.collapse(style="position: absolute; z-index: 1; background-color: rgba(219, 253, 255, 0.5);")
+                .panel-body
+                  ul#bigchat.chat
+                .panel-footer
+                  .input-group
+                    input#btn-input.form-control.input-sm(type='text', placeholder='Type your message here...')
+                    span.input-group-btn
+                      button#btn-chat.btn.btn-warning.btn-sm
+                        | Send
+  .container(style="height: 77.5vh")
+    .row.justify-content-start(style="min-height:100%")#zoomi
+      .col-sm-4 
+        video(autoplay='')
+
+
+block foot
+  script.
+    const data = !{payload}
+  script(src='/js/lib/roomclient.js')

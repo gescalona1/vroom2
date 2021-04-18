@@ -1,4 +1,3 @@
-const Message = require(__dirname + "/messagetype/Message.js");
 const WebSocketServer = require("ws").Server;
 
 module.exports = class {
@@ -8,13 +7,13 @@ module.exports = class {
 
         this.wss.on("connection", ws => {
             console.info("websocket connection open");
-        
-            const userId = new Date().getTime();
-
             ws.on("message", (data, flags) => {
+
                 data = JSON.parse(data);
                 const messageType = data["type"];
+                console.log("SERVER RECIEVED A MESSAGE!")
                 if (messageType == undefined) return; //cause an error
+                console.log("passed undefined");
                 const callbacks = this.listeners.get(messageType);
                 if (callbacks == undefined || callbacks.length == 0) return;
                 for (const callback of callbacks) callback(data);
@@ -27,12 +26,15 @@ module.exports = class {
     }
 
     send(message) {
-        if (!(message instanceof Message)) return;
-        this.ws.send(JSON.stringify(message.toJSON()));
+        const d = JSON.stringify(message);
+        console.log(this.wss.clients);
+        this.wss.clients.forEach(function each(client) {
+            client.send(d);
+         });
     }
 
     recieve(messagetype, callback) {
-        const arr = this.listeners.get(messagetype);
+        let arr = this.listeners.get(messagetype);
         if (arr == undefined) arr = [];
         arr.push(callback);
         this.listeners.set(messagetype, arr);

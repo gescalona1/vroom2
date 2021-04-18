@@ -103,3 +103,19 @@ exports.postJoin = (req, res, next) => {
     res.redirect("/classroom"); 
   });
 }
+
+exports.room = (req, res) => {
+  if (!req.user) {
+    return res.redirect('/');
+  } else if (!req.user.profile.classrooms.includes(`${req.params.owner} ${req.params.classroom}`)) {
+    return req.redirect("/classroom");
+  }
+  const payload = { user: req.user, params: req.params, avatar: req.user.gravatar()};
+  console.log(req.user.gravatar());
+  Classroom.findOne({name: req.params.classroom, owner: req.params.owner}, (err, existingClassroom) => {
+    payload["classroom"] = existingClassroom;
+    res.render('classroom/room', {
+      payload: JSON.stringify(payload)
+    });
+  });
+}
